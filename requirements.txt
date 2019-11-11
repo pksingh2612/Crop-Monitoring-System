@@ -1,0 +1,6 @@
+#pip install serial
+serial
+#pip install pandas
+pandas
+#pip install plotly
+plotly
