@@ -1,36 +1,28 @@
-#include "cactus_io_DHT22.h"
-#define DHT22_PIN 2 // what pin on the arduino is the DHT22 data line connected to
+#include "cactus_io_DHT22.h" // header file
 
-DHT22 dht(DHT22_PIN);
+#define DHT22_PIN 2 // This pin is used for taken digital data from DHT22 module on arduino UNO digital pin 2
 
-int sensorValue;
-int digitalValue;
+DHT22 dht(DHT22_PIN); // this is a built-in function with one parameter dht(pin2).
 
-//rain
+
+int sensorValue; // here we define this variable to assign analog value of mq135 gas module. 
+
+//this is rain sensor min and max value or range[0,1024]
 const int sensorMin = 0; 
 const int sensorMax = 1024; 
-//byte byteRead;
+
 
 void setup()
 {
-Serial.begin(9600); // sets the serial port to 9600
-pinMode(13, OUTPUT);
-pinMode( 3, INPUT);
-
-//Serial.println("DHT22 Humidity - Temperature Sensor");
-//Serial.println("RH\tTemp (C)\tTemp (F)");//\tHeat Index (C)\tHeat Index (F)");
-dht.begin();
-  
+  Serial.begin(9600); // sets the serial port to 9600
+    
+  dht.begin(); // dHT module begin
+    
 }
 
 void loop()
 {
- //  if (Serial.available()>0) 
- //  {
-    /* read the most recent byte */
- //   byteRead = Serial.read();
- //   if(byteRead==48)//0
- //   {
+ 
     sensorValue = analogRead(0);       // air gas
     
     int sensorvalue = analogRead(1); //soil moisture
@@ -39,8 +31,8 @@ void loop()
     
     int range = map(sensorReading, sensorMin, sensorMax, 0, 3);
     
-    dht.readHumidity();
-    dht.readTemperature();
+    dht.readHumidity(); // this function read humidity data and send to arduino uno board
+    dht.readTemperature();// this function read temperature data and send to arduino uno board
       
     // Check if any reads failed and exit early (to try again).
       if (isnan(dht.humidity) || isnan(dht.temperature_C)) {
@@ -68,8 +60,6 @@ void loop()
             Serial.print("0");//NOT RAINING
             break;
         }
-      Serial.print(",\n");
+    Serial.print(",\n");
     delay(100);
-    }
-//  }
-//}
+}
